@@ -1,4 +1,4 @@
-package com.awesomecontrols.bubbledialog;
+package com.awesomecontrols.windowcontrol;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ import com.vaadin.flow.dom.Style;
 @Tag("window-control")
 // @StyleSheet("frontend://bower_components/bubbledialog/cards.css")
 @JsModule("./windowcontrol/window-control.js")
-public class WindowControl extends PolymerTemplate<> implements HasStyle {
+public class WindowControl extends Component implements HasStyle {
 
     /**
      *
@@ -39,7 +39,8 @@ public class WindowControl extends PolymerTemplate<> implements HasStyle {
     @Id("windowcontrol")
     Div wc;
 
-    
+    // determina el estado actual. True si hay una dirección abierta, false si se ha cerrado.
+    boolean state = false;
     /**
      * Create a bubbleContent near to the target component
      * 
@@ -54,11 +55,14 @@ public class WindowControl extends PolymerTemplate<> implements HasStyle {
      */
     public void openWindow(String targetURL) {
         LOGGER.log(Level.FINER, "llamando a openWindow...");
-        UI.getCurrent().add(this);
-
-        LOGGER.log(Level.FINER, "targetId: " + this.targetId);
+        LOGGER.log(Level.FINER, "targetId: " + targetURL);
         getElement().callJsFunction("openWindow", targetURL);
+        this.state = true;
+    }
 
+    @ClientCallable
+    private void callback(){
+        LOGGER.log(Level.FINEST,"callback!!" );
     }
 
     /**
@@ -67,6 +71,10 @@ public class WindowControl extends PolymerTemplate<> implements HasStyle {
     public void closeWindow() {
         LOGGER.log(Level.FINER, "close window");
         getElement().callJsFunction("closeWindow");
+        this.state = false;
     }
 
+    public boolean getState() {
+        return this.state;
+    }
 }

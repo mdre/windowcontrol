@@ -2,11 +2,7 @@ import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
 import { ThemableMixin } from '@vaadin/vaadin-themable-mixin/vaadin-themable-mixin.js';
 
 /**
- * `bubble-dialog`
- * A BubbleDialog element
- *
- * @customElement
- * @polymer
+ * 
  */
 class WindowControl extends ThemableMixin(PolymerElement) {
     static get template() {
@@ -39,18 +35,18 @@ class WindowControl extends ThemableMixin(PolymerElement) {
         //var targetid = this.getProperty("targetid");
 
         // 
-        console.log("Opening ", targetURL, "...");
-        this.targetWindow = window.open("", "_blank");
-        this.targetWindow.document.write("B");
-        new_window.close();
+        console.log("\n\n\n\nOpening ", targetURL, "...");
+        this.targetWindow = window.open(targetURL, "_blank");
+
+        this.$server.callback();
     }
 
     closeWindow() {
         if (this.targetWindow) {
             this.targetWindow.close();
+            this.$server.callback();
         }
     }
-
 
 };
 
